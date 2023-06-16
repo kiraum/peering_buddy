@@ -14,43 +14,42 @@ pip install -r requirements.txt
 ````
 % ./peering_buddy.py
 usage: peering_buddy.py [-h] [-av ASN] [-ap ASN] [-ar ASN] [-lg PREFIX] [-al ASN] [-as ASN] [-au ASN] [-tm INTEGER] [-ti INTEGER] [-ta INTEGER] [-ao ASN] [-ac ASN] [-pa ASN THRESHOLD PREPEND[y|n]] [-tu ASN] [-gu ASN] [-gd ASN] [-gw [ASN|PREFIX]] [-wi IP]
-                        [-aa ASN] [-ip] [-ai ASN] [-ii ASN] [-gc ASN] [-cc ASN] [-gl] [-b] [-b4] [-b6] [-ba] [-nv]
+                        [-aa ASN] [-ip] [-ai ASN] [-ii ASN] [-gc ASN] [-cc ASN] [-gl] [-bo] [-b4] [-b6] [-ba] [-nv]
 
 Peering Buddy - Helping you dig data from internet for better decisions!
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -av ASN               [RIPE] Check ASN visibility RIPE RIS sensors.
-  -ap ASN               [RIPE] Check ASN announced prefixes to internet.
-  -ar ASN               [RIPE] Check ASN RPKI/ROA validation for announced prefixes.
-  -lg PREFIX            [RIPE] Get prefix using RIPE RIS as Looking Glass.
-  -al ASN               [RIPE] Check AS-Path length overview.
-  -as ASN               [RIPE] Check AS-Path length stripped [no as-prepend].
-  -au ASN               [RIPE] Check AS-Path length unstripped [with as-prepend].
-  -tm INTEGER           [RIPE][as|au] Threshold [>=] to be used with -as and -au for max.
-  -ti INTEGER           [RIPE][as|au] Threshold [>=] to be used with -as and -au for min.
-  -ta INTEGER           [RIPE][as|au] Threshold [>=] to be used with -as and -au for avg.
-  -ao ASN               [RIPE] Check ASN public resources overview.
-  -ac ASN               [RIPE][BGPView][IPInfo] Check ASN announces consistency.
-  -pa ASN THRESHOLD PREPEND[y|n]
-                        [RIPE][BGPView] Check ASN prefixes where as-path length >= threshold.
-  -tu ASN               [RIPE][BGPView] Check ASN upstreams on transient paths.
-  -gu ASN               [BGPView] Get ASN upstreams.
-  -gd ASN               [BGPView] Get ASN downstreams.
-  -gw [ASN|PREFIX]      [BGPView] Get ASN/Prefix whois information.
-  -wi IP                [IPInfo] Get IP whois information.
-  -aa ASN               [PeeringDB][RIPE] Check ASN AS-SET and expand it. Limited to RIPE ASNs.
-  -ip                   [PeeringDB] Get IXPs prefixes.
-  -ai ASN               [PeeringDB] Get ASN information on PeeringDB.
-  -ii ASN               [PeeringDB] Get ASN IPS allocated on IXPs.
-  -gc ASN               [PeeringDB] Get ASN contact.
-  -cc ASN               [PeeringDB] Get IXPs by Country Code [iso-3166-1 alpha-2].
-  -gl                   [Team Cymrus] Check a list of public LookingGlass.
-  -bo                   [Team Cymrus] Get ip4 bogons list.
-  -b4                   [Team Cymrus] Get ip4 full (+unallocated) bogons list.
-  -b6                   [Team Cymrus] Get ip6 full (+unallocated) bogons list.
-  -ba                   [NTT] Get ASN bogons list/examples.
-  -nv                   Remove human-like text to the output.
+  -h, --help                                                                           show this help message and exit
+  -av ASN, --asn-visibility ASN                                                        [RIPE] Check ASN visibility RIPE RIS sensors.
+  -ap ASN, --asn-announced-pfxs ASN                                                    [RIPE] Check ASN announced prefixes to internet.
+  -ar ASN, --asn-roa-validation ASN                                                    [RIPE] Check ASN RPKI/ROA validation for announced prefixes.
+  -lg PREFIX, --looking-glass PREFIX                                                   [RIPE] Get prefix using RIPE RIS as Looking Glass.
+  -al ASN, --aspath-length-overview ASN                                                [RIPE] Check AS-Path length overview.
+  -as ASN, --aspath-lenghth-stripped ASN                                               [RIPE] Check AS-Path length stripped [no as-prepend].
+  -au ASN, --aspath-lenghth-unstripped ASN                                             [RIPE] Check AS-Path length unstripped [with as-prepend].
+  -tm INTEGER, --threshold-max INTEGER                                                 [RIPE][as|au] Threshold [>=] to be used with -as and -au for max.
+  -ti INTEGER, --threshold-min INTEGER                                                 [RIPE][as|au] Threshold [>=] to be used with -as and -au for min.
+  -ta INTEGER, --threshold-avg INTEGER                                                 [RIPE][as|au] Threshold [>=] to be used with -as and -au for avg.
+  -ao ASN, --asn-overview ASN                                                          [RIPE] Check ASN public resources overview.
+  -ac ASN, --asn-announce-consistency ASN                                              [RIPE][BGPView][IPInfo] Check ASN announces consistency.
+  -pa ASN THRESHOLD PREPEND[y|n], --asn-pfxs-aspath-length ASN THRESHOLD PREPEND[y|n]  [RIPE][BGPView] Check ASN prefixes where as-path length >= threshold.
+  -tu ASN, --asn-upstreams-transient ASN                                               [RIPE][BGPView] Check ASN upstreams on transient paths.
+  -gu ASN, --asn-upstreams ASN                                                         [BGPView] Get ASN upstreams.
+  -gd ASN, --asn-downstreams ASN                                                       [BGPView] Get ASN downstreams.
+  -gw [ASN|PREFIX], --whois [ASN|PREFIX]                                               [BGPView] Get ASN/Prefix whois information.
+  -wi IP, --whois-ip IP                                                                [IPInfo] Get IP whois information.
+  -aa ASN, --asset ASN                                                                 [PeeringDB][RIPE] Check ASN AS-SET and expand it. Limited to RIPE ASNs.
+  -ip, --pdb-ixp-pfxs                                                                  [PeeringDB] Get IXPs prefixes.
+  -ai ASN, --pdb-asn-info ASN                                                          [PeeringDB] Get ASN information on PeeringDB.
+  -ii ASN, --pdb-asn-ips ASN                                                           [PeeringDB] Get ASN IPS allocated on IXPs.
+  -gc ASN, --pdb-asn-contact ASN                                                       [PeeringDB] Get ASN contact.
+  -cc ASN, --pdb-ixp-bycc ASN                                                          [PeeringDB] Get IXPs by Country Code [iso-3166-1 alpha-2].
+  -gl, --lgs                                                                           [Team Cymrus] Check a list of public LookingGlass.
+  -bo, --bogons                                                                        [Team Cymrus] Get ip4 bogons list.
+  -b4, --bogons-v4                                                                     [Team Cymrus] Get ip4 full (+unallocated) bogons list.
+  -b6, --bogons-v6                                                                     [Team Cymrus] Get ip6 full (+unallocated) bogons list.
+  -ba, --bogons-asn                                                                    [NTT] Get ASN bogons list/examples.
+  -nv, --non-verbose                                                                   Remove human-like text to the output.
 ````
 
 ## usage examples
@@ -1115,8 +1114,3 @@ Juniper:
 
 ================================================================================
 ````
-
-## todo
-=> Only RIPE AS-SETs are being expanded in the option -aa.
-
-=> Add option for PeeringDB authentication to bypass API rate-limit.

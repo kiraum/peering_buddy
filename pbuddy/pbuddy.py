@@ -12,7 +12,8 @@ import requests
 
 
 class Bcolors:
-    """ ANSI colors class """
+    """ANSI colors class"""
+
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
     OKGREEN = "\033[92m"
@@ -63,8 +64,11 @@ class PBuddy:
         if response.status_code == 200:
             data = json.loads(response.text)
             result = data["data"]
-            for afi in result['visibility']:
-                visibility_perc = (result['visibility'][afi]['ris_peers_seeing'] / result['visibility'][afi]['total_ris_peers']) * 100
+            for afi in result["visibility"]:
+                visibility_perc = (
+                    result["visibility"][afi]["ris_peers_seeing"]
+                    / result["visibility"][afi]["total_ris_peers"]
+                ) * 100
                 visibility_dict[afi] = visibility_perc
         else:
             print("ERROR | HTTP status != 200")
@@ -90,9 +94,7 @@ class PBuddy:
 
     def ripe_vrp_check(self, asn, pfx):
         """check ASN and prefixies ROA validation"""
-        url = (
-            f"https://stat.ripe.net/data/rpki-validation/data.json?resource={asn}&prefix={pfx}"
-        )
+        url = f"https://stat.ripe.net/data/rpki-validation/data.json?resource={asn}&prefix={pfx}"
         with requests.Session() as session:
             response = session.get(url)
         if response.status_code == 200:
@@ -214,9 +216,7 @@ class PBuddy:
 
     def ripe_asn_announces_consistency(self, asn):
         """check ASN announces consistence"""
-        url = (
-            f"https://stat.ripe.net/data/as-routing-consistency/data.json?resource=AS{asn}"
-        )
+        url = f"https://stat.ripe.net/data/as-routing-consistency/data.json?resource=AS{asn}"
         with requests.Session() as session:
             response = session.get(url)
         if response.status_code == 200:
@@ -549,9 +549,7 @@ class PBuddy:
         """
         expand ASN as-set => work only with RIPE sources/resources, need to improve it
         """
-        url = (
-            f"https://rest.db.ripe.net/search.json?query-string={asset}&type-filter=as-set&flags=no-referenced&flags=no-irt"
-        )
+        url = f"https://rest.db.ripe.net/search.json?query-string={asset}&type-filter=as-set&flags=no-referenced&flags=no-irt"
         with requests.Session() as session:
             response = session.get(url)
         if response.status_code == 200:
@@ -869,7 +867,7 @@ class PBuddy:
                             apl = len(attributenoprep.split())
                         if apl >= int(threshold):
                             entry = (
-                                f'{ris:<{msize}}',
+                                f"{ris:<{msize}}",
                                 " | ",
                                 pfx,
                                 " | ",
@@ -985,7 +983,7 @@ class PBuddy:
         transit,
         direct,
     ):
-        """ create aspath summary """
+        """create aspath summary"""
         locations = []
         for item in tuple_lpa:
             print("".join(map(str, item)))

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# pylint: disable=too-many-locals, too-many-branches, too-many-statements, line-too-long
+# pylint: disable=too-many-locals, too-many-branches, too-many-statements, line-too-long, unnecessary-lambda-assignment
 # noqa: E501
 """
 Peering Buddy - Helping you dig data from internet for better decisions!
@@ -14,11 +14,14 @@ from pbuddy.pbuddy import PBuddy
 
 def main():
     """Peering Buddy main"""
+    formatter = lambda prog: argparse.HelpFormatter(prog, max_help_position=88)
     parser = argparse.ArgumentParser(
-        description="Peering Buddy - Helping you dig data from internet for better decisions!"
+        description="Peering Buddy - Helping you dig data from internet for better decisions!",
+        formatter_class=formatter,
     )
     parser.add_argument(
         "-av",
+        "--asn-visibility",
         action="store",
         dest="asn_visibility",
         metavar="ASN",
@@ -26,6 +29,7 @@ def main():
     )
     parser.add_argument(
         "-ap",
+        "--asn-announced-pfxs",
         action="store",
         dest="asn_announcedpfxs",
         metavar="ASN",
@@ -33,6 +37,7 @@ def main():
     )
     parser.add_argument(
         "-ar",
+        "--asn-roa-validation",
         action="store",
         dest="asn_roavalidation",
         metavar="ASN",
@@ -40,6 +45,7 @@ def main():
     )
     parser.add_argument(
         "-lg",
+        "--looking-glass",
         action="store",
         dest="pfx_rislg",
         metavar="PREFIX",
@@ -47,6 +53,7 @@ def main():
     )
     parser.add_argument(
         "-al",
+        "--aspath-length-overview",
         action="store",
         dest="asn_aspathoverview",
         metavar="ASN",
@@ -54,6 +61,7 @@ def main():
     )
     parser.add_argument(
         "-as",
+        "--aspath-lenghth-stripped",
         action="store",
         dest="asn_aspathstripped",
         metavar="ASN",
@@ -61,6 +69,7 @@ def main():
     )
     parser.add_argument(
         "-au",
+        "--aspath-lenghth-unstripped",
         action="store",
         dest="asn_aspathunstripped",
         metavar="ASN",
@@ -68,6 +77,7 @@ def main():
     )
     parser.add_argument(
         "-tm",
+        "--threshold-max",
         action="store",
         dest="asn_aspaththresholdmax",
         metavar="INTEGER",
@@ -75,6 +85,7 @@ def main():
     )
     parser.add_argument(
         "-ti",
+        "--threshold-min",
         action="store",
         dest="asn_aspaththresholdmin",
         metavar="INTEGER",
@@ -82,6 +93,7 @@ def main():
     )
     parser.add_argument(
         "-ta",
+        "--threshold-avg",
         action="store",
         dest="asn_aspaththresholdavg",
         metavar="INTEGER",
@@ -89,6 +101,7 @@ def main():
     )
     parser.add_argument(
         "-ao",
+        "--asn-overview",
         action="store",
         dest="asn_overview",
         metavar="ASN",
@@ -96,6 +109,7 @@ def main():
     )
     parser.add_argument(
         "-ac",
+        "--asn-announce-consistency",
         action="store",
         dest="asn_announcesconsistency",
         metavar="ASN",
@@ -103,6 +117,7 @@ def main():
     )
     parser.add_argument(
         "-pa",
+        "--asn-pfxs-aspath-length",
         action="store",
         dest="asn_asnpfxaspathlength",
         metavar=("ASN", "THRESHOLD", "PREPEND[y|n]"),
@@ -111,14 +126,15 @@ def main():
     )
     parser.add_argument(
         "-tu",
+        "--asn-upstreams-transient",
         action="store",
         dest="asn_upstreamtransient",
         metavar="ASN",
         help="[RIPE][BGPView] Check ASN upstreams on transient paths.",
     )
-    # HERE
     parser.add_argument(
         "-gu",
+        "--asn-upstreams",
         action="store",
         dest="upstreams",
         metavar="ASN",
@@ -126,6 +142,7 @@ def main():
     )
     parser.add_argument(
         "-gd",
+        "--asn-downstreams",
         action="store",
         dest="downstreams",
         metavar="ASN",
@@ -133,6 +150,7 @@ def main():
     )
     parser.add_argument(
         "-gw",
+        "--whois",
         action="store",
         dest="whois",
         metavar="[ASN|PREFIX]",
@@ -140,6 +158,7 @@ def main():
     )
     parser.add_argument(
         "-wi",
+        "--whois-ip",
         action="store",
         dest="ipwhois",
         metavar="IP",
@@ -147,16 +166,22 @@ def main():
     )
     parser.add_argument(
         "-aa",
+        "--asset",
         action="store",
         dest="asset",
         metavar="ASN",
         help="[PeeringDB][RIPE] Check ASN AS-SET and expand it. Limited to RIPE ASNs.",
     )
     parser.add_argument(
-        "-ip", action="store_true", help="[PeeringDB] Get IXPs prefixes."
+        "-ip",
+        "--pdb-ixp-pfxs",
+        action="store_true",
+        dest="pdb_ip",
+        help="[PeeringDB] Get IXPs prefixes.",
     )
     parser.add_argument(
         "-ai",
+        "--pdb-asn-info",
         action="store",
         dest="asninfo",
         metavar="ASN",
@@ -164,6 +189,7 @@ def main():
     )
     parser.add_argument(
         "-ii",
+        "--pdb-asn-ips",
         action="store",
         dest="ixpips",
         metavar="ASN",
@@ -171,6 +197,7 @@ def main():
     )
     parser.add_argument(
         "-gc",
+        "--pdb-asn-contact",
         action="store",
         dest="asncontact",
         metavar="ASN",
@@ -178,6 +205,7 @@ def main():
     )
     parser.add_argument(
         "-cc",
+        "--pdb-ixp-bycc",
         action="store",
         dest="ixpcc",
         metavar="ASN",
@@ -185,35 +213,42 @@ def main():
     )
     parser.add_argument(
         "-gl",
+        "--lgs",
         action="store_true",
+        dest="lgs",
         help="[Team Cymrus] Check a list of public LookingGlass.",
     )
     parser.add_argument(
         "-bo",
+        "--bogons",
         action="store_true",
         dest="bogonspfx4",
         help="[Team Cymrus] Get ip4 bogons list.",
     )
     parser.add_argument(
         "-b4",
+        "--bogons-v4",
         action="store_true",
         dest="fbogonspfx4",
         help="[Team Cymrus] Get ip4 full (+unallocated) bogons list.",
     )
     parser.add_argument(
         "-b6",
+        "--bogons-v6",
         action="store_true",
         dest="fbogonspfx6",
         help="[Team Cymrus] Get ip6 full (+unallocated) bogons list.",
     )
     parser.add_argument(
         "-ba",
+        "--bogons-asn",
         action="store_true",
         dest="bogonsasn",
         help="[NTT] Get ASN bogons list/examples.",
     )
     parser.add_argument(
         "-nv",
+        "--non-verbose",
         action="store_true",
         dest="nonverbose",
         help="Remove human-like text to the output.",
@@ -441,7 +476,7 @@ def main():
             print("".join(map(str, item)))
         if args.nonverbose is False:
             print(separator)
-    if args.gl is True:
+    if args.lgs is True:
         result = pbuddy.tc_public_lg()
         if args.nonverbose is False:
             print(separator)
@@ -466,7 +501,7 @@ def main():
         print(json.dumps(expanded, indent=4))
         if args.nonverbose is False:
             print(separator)
-    if args.ip is True:
+    if args.pdb_ip is True:
         if args.nonverbose is False:
             print(separator)
             print("=> IXPs prefixes:")

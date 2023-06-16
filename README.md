@@ -46,7 +46,7 @@ optional arguments:
   -gc ASN               [PeeringDB] Get ASN contact.
   -cc ASN               [PeeringDB] Get IXPs by Country Code [iso-3166-1 alpha-2].
   -gl                   [Team Cymrus] Check a list of public LookingGlass.
-  -b                    [Team Cymrus] Get ip4 bogons list.
+  -bo                   [Team Cymrus] Get ip4 bogons list.
   -b4                   [Team Cymrus] Get ip4 full (+unallocated) bogons list.
   -b6                   [Team Cymrus] Get ip6 full (+unallocated) bogons list.
   -ba                   [NTT] Get ASN bogons list/examples.

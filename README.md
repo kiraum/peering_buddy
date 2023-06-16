@@ -51,7 +51,6 @@ optional arguments:
   -b6                   [Team Cymrus] Get ip6 full (+unallocated) bogons list.
   -ba                   [NTT] Get ASN bogons list/examples.
   -nv                   Remove human-like text to the output.
-(venv) tfgoncalves@Tiagos-MacBook-Pro peering_buddy %
 ````
 
 ## usage examples

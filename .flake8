@@ -1,0 +1,5 @@
+[flake8]
+per-file-ignores =
+    # line too long
+    peering_buddy.py: E501,
+    pbuddy/pbuddy.py: E501,

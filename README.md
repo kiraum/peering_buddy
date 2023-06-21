@@ -10,6 +10,15 @@ python3 -m venv venv
 pip install -r requirements.txt
 ````
 
+### configuration
+
+PeeringDB apply an aggressive rate-limit for anonymous requests, so if you are facing "ERROR | PeeringDB rate-limit.", please configure add your PeeringDB user/password to pbuddy/config.py:
+````
+PDB_USERNAME = "Your_User!"
+PDB_PASSWORD = "Your_Pass!"
+````
+PeeringDB still apply rate-limit for authenticated requests, but the valeus are more than enough for mostly of the cases. If you want to understand more about, check the current (PeeringDB configurations](https://github.com/peeringdb/peeringdb/blob/master/mainsite/settings/__init__.py#L302).
+
 ### use it
 ````
 % ./peering_buddy.py

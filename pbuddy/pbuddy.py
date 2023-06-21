@@ -10,6 +10,8 @@ import socket
 import sys
 import requests
 
+from pbuddy.config import PDB_USERNAME, PDB_PASSWORD
+
 
 class Bcolors:
     """ANSI colors class"""
@@ -533,6 +535,8 @@ class PBuddy:
         """return ASN as-set"""
         url = f"https://www.peeringdb.com/api/as_set/{asn}"
         with requests.Session() as session:
+            if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                session.auth = (PDB_USERNAME, PDB_PASSWORD)
             response = session.get(url)
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -571,6 +575,8 @@ class PBuddy:
         """return IXP prefixes"""
         url = "https://www.peeringdb.com/api/ixpfx"
         with requests.Session() as session:
+            if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                session.auth = (PDB_USERNAME, PDB_PASSWORD)
             response = session.get(url)
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -590,6 +596,8 @@ class PBuddy:
         """return ASN info on peeringdb"""
         url = f"https://www.peeringdb.com/api/net?asn={asn}"
         with requests.Session() as session:
+            if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                session.auth = (PDB_USERNAME, PDB_PASSWORD)
             response = session.get(url)
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -633,6 +641,8 @@ class PBuddy:
         """return ASN ips allocated on IXPs"""
         url = f"https://www.peeringdb.com/api/netixlan?asn={asn}"
         with requests.Session() as session:
+            if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                session.auth = (PDB_USERNAME, PDB_PASSWORD)
             response = session.get(url)
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -662,6 +672,8 @@ class PBuddy:
         """return ASN contacts"""
         url = f"https://www.peeringdb.com/api/netixlan?asn={asn}"
         with requests.Session() as session:
+            if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                session.auth = (PDB_USERNAME, PDB_PASSWORD)
             response = session.get(url)
         netid = []
         if response.status_code == 200:
@@ -680,6 +692,8 @@ class PBuddy:
         for each in netid:
             url = f"https://www.peeringdb.com/api/poc?net_id={each}"
             with requests.Session() as session:
+                if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                    session.auth = (PDB_USERNAME, PDB_PASSWORD)
                 response = session.get(url)
             if response.status_code == 200:
                 data = json.loads(response.text)
@@ -704,6 +718,8 @@ class PBuddy:
         """return IXPs by country code iso-3166-1 alpha-2"""
         url = f"https://www.peeringdb.com/api/ix?country={ccode}"
         with requests.Session() as session:
+            if PDB_USERNAME != "" and PDB_PASSWORD != "":
+                session.auth = (PDB_USERNAME, PDB_PASSWORD)
             response = session.get(url)
         if response.status_code == 200:
             data = json.loads(response.text)

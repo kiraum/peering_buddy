@@ -1,6 +1,7 @@
 # peering_buddy
 
 [![Pylint](https://github.com/kiraum/peering_buddy/actions/workflows/pylint.yml/badge.svg)](https://github.com/kiraum/peering_buddy/actions/workflows/pylint.yml)
+[![Flake8](https://github.com/kiraum/peering_buddy/actions/workflows/flake8.yml/badge.svg)](https://github.com/kiraum/peering_buddy/actions/workflows/flake8.yml)
 [![Black](https://github.com/kiraum/peering_buddy/actions/workflows/black.yml/badge.svg)](https://github.com/kiraum/peering_buddy/actions/workflows/black.yml)
 
 Peering Buddy is just putting a bunch of API queries together with some logic, making our life "easier".

@@ -165,14 +165,6 @@ def main():
         help="[IPInfo] Get IP whois information.",
     )
     parser.add_argument(
-        "-aa",
-        "--asset",
-        action="store",
-        dest="asset",
-        metavar="ASN",
-        help="[NLNOG] Check ASN AS-SET and expand it.",
-    )
-    parser.add_argument(
         "-ip",
         "--pdb-ixp-pfxs",
         action="store_true",
@@ -247,6 +239,22 @@ def main():
         help="[NTT] Get ASN bogons list/examples.",
     )
     parser.add_argument(
+        "-aa",
+        "--asset",
+        action="store",
+        dest="asset",
+        metavar="ASN",
+        help="[NLNOG] Check ASN AS-SET and expand it.",
+    )
+    parser.add_argument(
+        "-rh",
+        "--resource-health-check",
+        action="store",
+        dest="resourcehealthcheck",
+        metavar="ASN|PREFIX",
+        help="[NLNOG] ASN or Prefix health check.",
+    )
+    parser.add_argument(
         "-nv",
         "--non-verbose",
         action="store_true",
@@ -263,6 +271,7 @@ def main():
     re_int = "^[0-9]{0,2}$"
     re_yn = "^[yYnN]$"
     asn_invalid = "Invalid ASN, please type the ASN without the suffix AS."
+    pfx_invalid = "Invalid prefix (v4/v6), please type prefix/mask."
     separator = "=" * 80
 
     if args.asn_visibility is not None:
@@ -322,7 +331,7 @@ def main():
     if args.pfx_rislg is not None:
         repfx = pbuddy.pfx_validation(args.pfx_rislg)
         if repfx is False:
-            print("That's not a valid ip4/ip6 prefix.")
+            print(pfx_invalid)
             sys.exit(1)
         field = None
         result = pbuddy.ripe_ris_lg(args.pfx_rislg, field)
@@ -499,6 +508,28 @@ def main():
         print(json.dumps(expanded, indent=4))
         if args.nonverbose is False:
             print(separator)
+
+    if args.resourcehealthcheck is not None:
+        reasn = pbuddy.regex_validation(re_asn, args.resourcehealthcheck)
+        repfx = pbuddy.pfx_validation(args.resourcehealthcheck)
+        if reasn is False and repfx is False:
+            print(
+                "That's not a valid ASN or prefix, please type the ASN without the suffix AS."
+            )
+            sys.exit(1)
+        if reasn is True:
+            resource_type = "asn"
+        elif repfx is True:
+            resource_type = "prefix"
+        rhc = pbuddy.nlnog_resource_health_check(
+            args.resourcehealthcheck, resource_type
+        )
+        if args.nonverbose is False:
+            print(separator)
+        print(json.dumps(rhc, indent=4))
+        if args.nonverbose is False:
+            print(separator)
+
     if args.pdb_ip is True:
         if args.nonverbose is False:
             print(separator)

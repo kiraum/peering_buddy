@@ -22,8 +22,8 @@ PeeringDB still apply rate-limit for authenticated requests, but the valeus are 
 ### use it
 ````
 % ./peering_buddy.py
-usage: peering_buddy.py [-h] [-av ASN] [-ap ASN] [-ar ASN] [-lg PREFIX] [-al ASN] [-as ASN] [-au ASN] [-tm INTEGER] [-ti INTEGER] [-ta INTEGER] [-ao ASN] [-ac ASN] [-pa ASN THRESHOLD PREPEND[y|n]] [-tu ASN] [-gu ASN] [-gd ASN] [-gw [ASN|PREFIX]] [-wi IP]
-                        [-aa ASN] [-ip] [-ai ASN] [-ii ASN] [-gc ASN] [-cc ASN] [-gl] [-bo] [-b4] [-b6] [-ba] [-nv]
+usage: peering_buddy.py [-h] [-av ASN] [-ap ASN] [-ar ASN] [-lg PREFIX] [-al ASN] [-as ASN] [-au ASN] [-tm INTEGER] [-ti INTEGER] [-ta INTEGER] [-ao ASN] [-ac ASN] [-pa ASN THRESHOLD PREPEND[y|n]] [-tu ASN] [-gu ASN] [-gd ASN] [-gw [ASN|PREFIX]]
+                        [-wi IP] [-aa ASN] [-ip] [-ai ASN] [-ii ASN] [-gc ASN] [-cc ASN] [-gl] [-bo] [-b4] [-b6] [-ba] [-nv]
 
 Peering Buddy - Helping you dig data from internet for better decisions!
 
@@ -47,7 +47,7 @@ optional arguments:
   -gd ASN, --asn-downstreams ASN                                                       [BGPView] Get ASN downstreams.
   -gw [ASN|PREFIX], --whois [ASN|PREFIX]                                               [BGPView] Get ASN/Prefix whois information.
   -wi IP, --whois-ip IP                                                                [IPInfo] Get IP whois information.
-  -aa ASN, --asset ASN                                                                 [PeeringDB][RIPE] Check ASN AS-SET and expand it. Limited to RIPE ASNs.
+  -aa ASN, --asset ASN                                                                 [NLNOG] Check ASN AS-SET and expand it.
   -ip, --pdb-ixp-pfxs                                                                  [PeeringDB] Get IXPs prefixes.
   -ai ASN, --pdb-asn-info ASN                                                          [PeeringDB] Get ASN information on PeeringDB.
   -ii ASN, --pdb-asn-ips ASN                                                           [PeeringDB] Get ASN IPS allocated on IXPs.
@@ -762,15 +762,21 @@ Paris, France               => 1 => 179 => 0.56 %
 ````
 % ./peering_buddy.py -aa 3333
 ================================================================================
-=> ASN 3333 => AS-SET AS-RIPENCC expanded to:
-================================================================================
-{
-    "AS-RIPENCC": [
-        "AS3333",
-        "AS2121",
-        "AS12654"
-    ]
-}
+[
+    {
+        "depth": 1,
+        "source": "RIPE",
+        "path": [
+            "AS-RIPENCC"
+        ],
+        "name": "AS-RIPENCC",
+        "members": [
+            "AS12654",
+            "AS2121",
+            "AS3333"
+        ]
+    }
+]
 ================================================================================
 ````
 

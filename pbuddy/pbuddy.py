@@ -603,11 +603,11 @@ class PBuddy:
                 direct_origin = data["directOrigin"]
             elif resource_type == "prefix":
                 direct_origin = data
-            for resource in direct_origin:
-                resource_data[resource["prefix"]] = {
-                    "origin": resource["bgpOrigins"],
-                    "status": resource["messages"],
-                    "score": resource["goodnessOverall"],
+            for each in direct_origin:
+                resource_data[each["prefix"]] = {
+                    "origin": each["bgpOrigins"],
+                    "status": each["messages"],
+                    "score": each["goodnessOverall"],
                 }
         else:
             print("ERROR | HTTP status != 200")

@@ -170,7 +170,7 @@ def main():
         action="store",
         dest="asset",
         metavar="ASN",
-        help="[PeeringDB][RIPE] Check ASN AS-SET and expand it. Limited to RIPE ASNs.",
+        help="[NLNOG] Check ASN AS-SET and expand it.",
     )
     parser.add_argument(
         "-ip",
@@ -493,10 +493,8 @@ def main():
             sys.exit(1)
         result = pbuddy.pdb_asn_asset(args.asset)
         asset = result[0]
-        expanded = pbuddy.ripe_expand_asset(asset[args.asset])
+        expanded = pbuddy.nlnog_expand_asset(asset[args.asset])
         if args.nonverbose is False:
-            print(separator)
-            print("=> ASN", args.asset, "=> AS-SET", asset[args.asset], "expanded to:")
             print(separator)
         print(json.dumps(expanded, indent=4))
         if args.nonverbose is False:

@@ -551,7 +551,8 @@ class PBuddy:
 
     def ripe_expand_asset(self, asset):
         """
-        expand ASN as-set => work only with RIPE sources/resources, need to improve it
+        NOT IN USE!!!
+        expand AS-SET => work only with RIPE sources/resources.
         """
         url = f"https://rest.db.ripe.net/search.json?query-string={asset}&type-filter=as-set&flags=no-referenced&flags=no-irt"
         with requests.Session() as session:
@@ -570,6 +571,20 @@ class PBuddy:
             print("ERROR | HTTP status != 200")
             sys.exit(1)
         return result_dict
+
+    def nlnog_expand_asset(self, asset):
+        """
+        expand AS-SET
+        """
+        url = f"https://irrexplorer.nlnog.net/api/sets/expand/{asset}"
+        with requests.Session() as session:
+            response = session.get(url, timeout=30)
+        if response.status_code == 200:
+            asset_json = json.loads(response.text)
+        else:
+            print("ERROR | HTTP status != 200")
+            sys.exit(1)
+        return asset_json
 
     def pdb_ixps_pfxs(self):
         """return IXP prefixes"""

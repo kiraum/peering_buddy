@@ -1129,3 +1129,99 @@ Juniper:
 
 ================================================================================
 ````
+
+````
+% ./peering_buddy.py -rh 666
+================================================================================
+{
+    "84.205.81.0/24": {
+        "origin": [
+            12654
+        ],
+        "status": [
+            {
+                "text": "Everything looks good",
+                "category": "success"
+            }
+        ],
+        "score": 3
+    },
+    "103.171.219.0/24": {
+        "origin": [],
+        "status": [
+            {
+                "text": "RPKI ROA exists, but prefix not seen in DFZ",
+                "category": "info"
+            }
+        ],
+        "score": 2
+    },
+    "2001:df7:5381::/48": {
+        "origin": [],
+        "status": [
+            {
+                "text": "RPKI ROA exists, but prefix not seen in DFZ",
+                "category": "info"
+            }
+        ],
+        "score": 2
+    }
+}
+================================================================================
+````
+
+````
+% ./peering_buddy.py -rh 1.1.1.0/24
+================================================================================
+{
+    "1.1.1.0/24": {
+        "origin": [
+            13335
+        ],
+        "status": [
+            {
+                "text": "Everything looks good",
+                "category": "success"
+            }
+        ],
+        "score": 3
+    },
+    "1.1.1.3/32": {
+        "origin": [],
+        "status": [
+            {
+                "text": "RPKI-invalid route objects found",
+                "category": "danger"
+            },
+            {
+                "text": "Expected route object in APNIC, but only found in other IRRs",
+                "category": "warning"
+            },
+            {
+                "text": "Route objects exist, but prefix not seen in DFZ",
+                "category": "info"
+            }
+        ],
+        "score": 0
+    },
+    "1.1.1.15/32": {
+        "origin": [],
+        "status": [
+            {
+                "text": "RPKI-invalid route objects found",
+                "category": "danger"
+            },
+            {
+                "text": "Expected route object in APNIC, but only found in other IRRs",
+                "category": "warning"
+            },
+            {
+                "text": "Route objects exist, but prefix not seen in DFZ",
+                "category": "info"
+            }
+        ],
+        "score": 0
+    }
+}
+================================================================================
+````

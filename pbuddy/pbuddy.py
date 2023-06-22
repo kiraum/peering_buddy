@@ -586,25 +586,29 @@ class PBuddy:
             sys.exit(1)
         return asset_json
 
-    def nlnog_resource_health_check(self, resource, type):
+    def nlnog_resource_health_check(self, resource, resource_type):
         """
         resource health check
         """
         resource_data = {}
-        if type == "asn":
+        if resource_type == "asn":
             url = f"https://irrexplorer.nlnog.net/api/prefixes/asn/AS{resource}"
-        elif type == "prefix":
+        elif resource_type == "prefix":
             url = f"https://irrexplorer.nlnog.net/api/prefixes/prefix/{resource}"
         with requests.Session() as session:
             response = session.get(url, timeout=30)
         if response.status_code == 200:
             data = json.loads(response.text)
-            if type == "asn":
-                direct_origin = data['directOrigin']
-            elif type == "prefix":
+            if resource_type == "asn":
+                direct_origin = data["directOrigin"]
+            elif resource_type == "prefix":
                 direct_origin = data
             for resource in direct_origin:
-                resource_data[resource['prefix']] = {"origin": resource['bgpOrigins'], "status": resource['messages'], "score": resource['goodnessOverall']}
+                resource_data[resource["prefix"]] = {
+                    "origin": resource["bgpOrigins"],
+                    "status": resource["messages"],
+                    "score": resource["goodnessOverall"],
+                }
         else:
             print("ERROR | HTTP status != 200")
             sys.exit(1)

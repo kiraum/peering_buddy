@@ -518,10 +518,12 @@ def main():
             )
             sys.exit(1)
         if reasn is True:
-            type = 'asn'
+            resource_type = "asn"
         elif repfx is True:
-            type = 'prefix'
-        rhc = pbuddy.nlnog_resource_health_check(args.resourcehealthcheck, type)
+            resource_type = "prefix"
+        rhc = pbuddy.nlnog_resource_health_check(
+            args.resourcehealthcheck, resource_type
+        )
         if args.nonverbose is False:
             print(separator)
         print(json.dumps(rhc, indent=4))

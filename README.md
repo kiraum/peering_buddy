@@ -11,7 +11,8 @@ Peering Buddy is just putting a bunch of API queries together with some logic, m
 git clone git@github.com:kiraum/peering_buddy.git
 python3 -m venv venv
 . venv/bin/activate
-pip install -r requirements.txt
+pip3 install -U pip uv
+uv pip install -r requirements.txt
 ````
 
 ### configuration
@@ -109,7 +110,7 @@ Prefix 2001:67c:2e8::/48 is valid
 ````
 
 ````
-% ./peering_buddy.py -lg 193.0.0.0/21 
+% ./peering_buddy.py -lg 193.0.0.0/21
 ================================================================================
 => Looking glass results for the prefix 193.0.0.0/21 :
 ================================================================================
@@ -909,7 +910,7 @@ NL-ix: Main | Speed: 10000 | IP4: 193.239.118.84 | IP6: 2001:7f8:13::a500:3333:2
 ````
 
 ````
-% ./peering_buddy.py -cc nl 
+% ./peering_buddy.py -cc nl
 ================================================================================
 => IXPs available on  nl :
 ================================================================================
@@ -1033,7 +1034,7 @@ route-server.west.bb.allstream.net => 209.82.88.118
 ````
 
 ````
-% ./peering_buddy.py -b4 
+% ./peering_buddy.py -b4
 ================================================================================
 => IPv4 full (+unallocated) bogons list:
 ================================================================================

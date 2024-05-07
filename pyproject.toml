@@ -1,0 +1,30 @@
+[project]
+name = "peering_buddy"
+description = "Peering Buddy is just putting a bunch of API queries together with some logic, making our life 'easier'."
+version = "0.0.1"
+authors = [{ name = "Tiago Felipe Goncalves", email = "tfgoncalves@xpto.it" }]
+readme = "README.md"
+requires-python = ">=3.12"
+keywords = ["peering", "tool"]
+dependencies = [
+    "requests",
+    "black",
+    "isort",
+    "pylint",
+    "ruff",
+    "pytest",
+    "yamllint",
+    "uv",
+]
+
+[project.urls]
+documentation = "https://github.com/kiraum/peering_buddy/blob/main/README.md"
+repository = "https://github.com/kiraum/peering_buddy/"
+
+[tool.pylint.messages_control]
+disable = [
+    "format",
+]
+
+[tool.isort]
+profile = "black"

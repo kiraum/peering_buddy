@@ -1,6 +1,7 @@
 """
 Peering Buddy - Helping you dig data from internet for better decisions!
 """
+
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements, line-too-long, too-few-public-methods, too-many-lines, too-many-nested-blocks, too-many-arguments, too-many-public-methods
 
 import ipaddress
@@ -8,13 +9,26 @@ import json
 import re
 import socket
 import sys
+
 import requests
 
-from pbuddy.config import PDB_USERNAME, PDB_PASSWORD
+from pbuddy.config import PDB_PASSWORD, PDB_USERNAME
 
 
 class Bcolors:
-    """ANSI colors class"""
+    """
+    ANSI colors class.
+
+    Attributes:
+        HEADER (str): ANSI escape code for header color.
+        OKBLUE (str): ANSI escape code for blue color.
+        OKGREEN (str): ANSI escape code for green color.
+        WARNING (str): ANSI escape code for warning color.
+        FAIL (str): ANSI escape code for fail color.
+        ENDC (str): ANSI escape code to end color formatting.
+        BOLD (str): ANSI escape code for bold text.
+        UNDERLINE (str): ANSI escape code for underlined text.
+    """
 
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
@@ -28,17 +42,34 @@ class Bcolors:
 
 class PBuddy:
     """
-    Peering Buddy class
+    Peering Buddy
     """
 
     def regex_validation(self, regex, arginput):
-        """regex validation"""
+        """
+        Validates the input string against the provided regular expression pattern.
+
+        Parameters:
+            regex (str): The regular expression pattern to match against.
+            arginput (str): The input string to be validated.
+
+        Returns:
+            bool: True if the input string matches the regex pattern, False otherwise.
+        """
         regex = re.compile(regex)
         match = re.match(regex, arginput)
         return bool(match)
 
     def pfx_validation(self, prefix):
-        """prefix validation"""
+        """
+        Validates the input string as a network prefix.
+
+        Parameters:
+            prefix (str): The input string to be validated as a network prefix.
+
+        Returns:
+            bool: True if the input string is a valid network prefix, False otherwise.
+        """
         try:
             ipaddress.ip_network(prefix)
             return True
@@ -46,7 +77,15 @@ class PBuddy:
             return False
 
     def ip_validation(self, ipaddr):
-        """ip validation"""
+        """
+        Validates the input string as an IP address.
+
+        Parameters:
+            ipaddr (str): The input string to be validated as an IP address.
+
+        Returns:
+            bool: True if the input string is a valid IP address, False otherwise.
+        """
         try:
             ipaddress.ip_address(ipaddr)
             return True
@@ -54,11 +93,27 @@ class PBuddy:
             return False
 
     def list_avg(self, list_l):
-        """return avg on a list of integers"""
+        """
+        Calculates the average value of a list of integers.
+
+        Parameters:
+            list_l (list of int): The list of integers.
+
+        Returns:
+            float: The average value of the list.
+        """
         return sum(list_l) / len(list_l)
 
     def ripe_asn_visibility(self, asn):
-        """check ASN visibility using RIPE RIS"""
+        """
+        Retrieves ASN visibility using RIPE RIS.
+
+        Parameters:
+            asn (int): The ASN to check visibility for.
+
+        Returns:
+            dict: A dictionary containing visibility percentages for each AFI.
+        """
         url = f"https://stat.ripe.net/data/routing-status/data.json?resource=AS{asn}"
         visibility_dict = {}
         with requests.Session() as session:
@@ -78,7 +133,15 @@ class PBuddy:
         return visibility_dict
 
     def ripe_asn_announced_pfx(self, asn):
-        """get announced prefixes to internet using RIPE RIS"""
+        """
+        Retrieves announced prefixes to the internet using RIPE RIS.
+
+        Parameters:
+            asn (int): The ASN to retrieve announced prefixes for.
+
+        Returns:
+            list: A list of announced prefixes for the specified ASN.
+        """
         url = (
             f"https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS{asn}"
         )
@@ -95,7 +158,16 @@ class PBuddy:
         return sorted(pfxs)
 
     def ripe_vrp_check(self, asn, pfx):
-        """check ASN and prefixies ROA validation"""
+        """
+        Checks ASN and prefix ROA validation using RIPE RIS.
+
+        Parameters:
+            asn (int): The ASN to check ROA validation for.
+            pfx (str): The prefix to check ROA validation for.
+
+        Returns:
+            str: The validity status of the ASN and prefix ROA.
+        """
         url = f"https://stat.ripe.net/data/rpki-validation/data.json?resource={asn}&prefix={pfx}"
         with requests.Session() as session:
             response = session.get(url)
@@ -111,7 +183,17 @@ class PBuddy:
         return vrp
 
     def ripe_ris_lg(self, pfx, field):
-        """RIPE RIS looking glass"""
+        """
+        Retrieves RIPE RIS looking glass data for a given prefix.
+
+        Parameters:
+            pfx (str): The prefix to retrieve looking glass data for.
+            field (str): The field to filter the data on.
+
+        Returns:
+            dict: A dictionary containing the filtered looking glass data.
+                If no field is provided, returns the raw looking glass data.
+        """
         url = f"https://stat.ripe.net/data/looking-glass/data.json?resource={pfx}"
         with requests.Session() as session:
             response = session.get(url)
@@ -135,7 +217,16 @@ class PBuddy:
         return result
 
     def ripe_aspth_length_overview(self, asn):
-        """as-path length overview"""
+        """
+        Retrieves AS-Path length overview for a given ASN.
+
+        Parameters:
+            asn (int): The ASN to retrieve AS-Path length overview for.
+
+        Returns:
+            tuple: A tuple containing the stripped and unstripped
+                max, min, and average AS-Path lengths.
+        """
         url = f"https://stat.ripe.net/data/as-path-length/data.json?resource=AS{asn}"
         with requests.Session() as session:
             response = session.get(url)
@@ -173,7 +264,18 @@ class PBuddy:
         )
 
     def ripe_aspath_length(self, asn, view, func, threshold):
-        """check RIPE RIS detailed view for the ASN as-path length (threshold filters applicable)"""
+        """
+        Checks RIPE RIS detailed view for the ASN AS-Path length.
+
+        Parameters:
+            asn (int): The ASN to check AS-Path length for.
+            view (str): The view to retrieve AS-Path length for.
+            func (list): A list of functions to apply on the data.
+            threshold (dict): A dictionary containing threshold filters.
+
+        Returns:
+            list: A list containing location and AS-Path length information.
+        """
         url = f"https://stat.ripe.net/data/as-path-length/data.json?resource=AS{asn}"
         with requests.Session() as session:
             response = session.get(url)
@@ -204,7 +306,15 @@ class PBuddy:
         return aspathlength
 
     def ripe_asn_resources_overview(self, asn):
-        """ASN public resources overview"""
+        """
+        Retrieves ASN public resources overview.
+
+        Parameters:
+            asn (int): The ASN to retrieve public resources overview for.
+
+        Returns:
+            dict: A dictionary containing public resources overview data.
+        """
         url = f"https://stat.ripe.net/data/routing-status/data.json?resource=AS{asn}"
         with requests.Session() as session:
             response = session.get(url)
@@ -217,7 +327,15 @@ class PBuddy:
         return result
 
     def ripe_asn_announces_consistency(self, asn):
-        """check ASN announces consistence"""
+        """
+        Checks the consistency of ASN announces.
+
+        Parameters:
+            asn (int): The ASN to check consistency for.
+
+        Returns:
+            list: A list containing information about the consistency of the ASN announces.
+        """
         url = f"https://stat.ripe.net/data/as-routing-consistency/data.json?resource=AS{asn}"
         with requests.Session() as session:
             response = session.get(url)
@@ -270,8 +388,8 @@ class PBuddy:
                         bgp,
                         " | RPKI: ",
                         vrp,
-                        " => Announce looks ok, but check the reasons to not have a ROA/RPKI "
-                        "published." + Bcolors.ENDC,
+                        " => Announce looks ok, but check the reasons to not have a ROA/RPKI published."
+                        + Bcolors.ENDC,
                     )
                 elif (
                     irr != "-"
@@ -306,9 +424,8 @@ class PBuddy:
                         bgp,
                         " | RPKI: ",
                         vrp,
-                        " => Check your announce, ROA/RPKI is valid, not registered on IRR "
-                        "and whois (probably malicious activity or hijack)."
-                        + Bcolors.ENDC,
+                        " => Check your announce, ROA/RPKI is valid, not registered on IRR and whois "
+                        "(probably malicious activity or hijack)." + Bcolors.ENDC,
                     )
                 elif irr == "-" and bgp is True and whois is False and vrp == "unknown":
                     result = (
@@ -322,8 +439,8 @@ class PBuddy:
                         bgp,
                         " | RPKI: ",
                         vrp,
-                        " => Check your announce, ROA/RPKI not published, not registered on IRR "
-                        "and whois (probably fat finger or hijack)." + Bcolors.ENDC,
+                        " => Check your announce, ROA/RPKI not published, not registered on IRR and whois "
+                        "(probably fat finger or hijack)." + Bcolors.ENDC,
                     )
                 elif (
                     irr == "-"
@@ -342,8 +459,8 @@ class PBuddy:
                         bgp,
                         " | RPKI: ",
                         vrp,
-                        " => Check your announce, ROA/RPKI not published, not registered on IRR "
-                        "and whois (probably fat finger or hijack)." + Bcolors.ENDC,
+                        " => Check your announce, ROA/RPKI not published, not registered on IRR and whois "
+                        "(probably fat finger or hijack)." + Bcolors.ENDC,
                     )
                 elif irr == "-" and bgp is True and whois is True and vrp == "valid":
                     result = (
@@ -518,7 +635,12 @@ class PBuddy:
         return acons
 
     def tc_public_lg(self):
-        """use sentex.ca dns entries to get public looking glass available, looks deprecated"""
+        """
+        Use sentex.ca DNS entries to get public looking glass available. (Deprecated)
+
+        Returns:
+            dict: A dictionary containing the reverse DNS and IP addresses of available looking glasses.
+        """
         lgs = {}
         for i in range(1, 16):
             hostname = "routeserver" + str(i) + ".sentex.ca"
@@ -532,7 +654,15 @@ class PBuddy:
         return lgs
 
     def pdb_asn_asset(self, asn):
-        """return ASN as-set"""
+        """
+        Return ASN as-set from PeeringDB.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            dict: ASN as-set information.
+        """
         url = f"https://www.peeringdb.com/api/as_set/{asn}"
         with requests.Session() as session:
             if PDB_USERNAME != "" and PDB_PASSWORD != "":
@@ -551,8 +681,13 @@ class PBuddy:
 
     def ripe_expand_asset(self, asset):
         """
-        NOT IN USE!!!
-        expand AS-SET => work only with RIPE sources/resources.
+        Expand AS-SET. (Deprecated)
+
+        Args:
+            asset (str): AS-SET to expand.
+
+        Returns:
+            dict: Expanded AS-SET information.
         """
         url = f"https://rest.db.ripe.net/search.json?query-string={asset}&type-filter=as-set&flags=no-referenced&flags=no-irt"
         with requests.Session() as session:
@@ -574,7 +709,13 @@ class PBuddy:
 
     def nlnog_expand_asset(self, asset):
         """
-        expand AS-SET
+        Expand AS-SET.
+
+        Args:
+            asset (str): AS-SET to expand.
+
+        Returns:
+            dict: Expanded AS-SET information.
         """
         url = f"https://irrexplorer.nlnog.net/api/sets/expand/{asset}"
         with requests.Session() as session:
@@ -588,7 +729,14 @@ class PBuddy:
 
     def nlnog_resource_health_check(self, resource, resource_type):
         """
-        resource health check
+        Resource health check.
+
+        Args:
+            resource (str): Resource identifier (ASN or prefix).
+            resource_type (str): Type of resource ("asn" or "prefix").
+
+        Returns:
+            dict: Resource health information.
         """
         resource_data = {}
         if resource_type == "asn":
@@ -615,7 +763,12 @@ class PBuddy:
         return resource_data
 
     def pdb_ixps_pfxs(self):
-        """return IXP prefixes"""
+        """
+        Return IXP prefixes from PeeringDB.
+
+        Returns:
+            list: List of IXP prefixes.
+        """
         url = "https://www.peeringdb.com/api/ixpfx"
         with requests.Session() as session:
             if PDB_USERNAME != "" and PDB_PASSWORD != "":
@@ -636,7 +789,15 @@ class PBuddy:
         return sorted(result)
 
     def pdb_asn_info(self, asn):
-        """return ASN info on peeringdb"""
+        """
+        Return ASN info on PeeringDB.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            list: List of ASN information.
+        """
         url = f"https://www.peeringdb.com/api/net?asn={asn}"
         with requests.Session() as session:
             if PDB_USERNAME != "" and PDB_PASSWORD != "":
@@ -681,7 +842,15 @@ class PBuddy:
         return result
 
     def pdb_asn_ixps_ips(self, asn):
-        """return ASN ips allocated on IXPs"""
+        """
+        Return ASN IPs allocated on IXPs from PeeringDB.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            list: List of ASN IPs allocated on IXPs.
+        """
         url = f"https://www.peeringdb.com/api/netixlan?asn={asn}"
         with requests.Session() as session:
             if PDB_USERNAME != "" and PDB_PASSWORD != "":
@@ -712,7 +881,15 @@ class PBuddy:
         return ixps
 
     def pdb_asn_contacts(self, asn):
-        """return ASN contacts"""
+        """
+        Return ASN contacts from PeeringDB.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            list: List of ASN contacts.
+        """
         url = f"https://www.peeringdb.com/api/netixlan?asn={asn}"
         with requests.Session() as session:
             if PDB_USERNAME != "" and PDB_PASSWORD != "":
@@ -758,7 +935,15 @@ class PBuddy:
         return result
 
     def pdb_ixps_by_cc(self, ccode):
-        """return IXPs by country code iso-3166-1 alpha-2"""
+        """
+        Return IXPs by country code iso-3166-1 alpha-2 from PeeringDB.
+
+        Args:
+            ccode (str): Country code iso-3166-1 alpha-2.
+
+        Returns:
+            list: List of IXPs in the specified country.
+        """
         url = f"https://www.peeringdb.com/api/ix?country={ccode}"
         with requests.Session() as session:
             if PDB_USERNAME != "" and PDB_PASSWORD != "":
@@ -796,7 +981,15 @@ class PBuddy:
         return result
 
     def tc_bogons_pfxs(self, url):
-        """return a list of bogons prefixes"""
+        """
+        Return a list of bogons prefixes.
+
+        Args:
+            url (str): URL to fetch bogons prefixes.
+
+        Returns:
+            list: List of bogons prefixes.
+        """
         url = f"{url}"
         with requests.Session() as session:
             response = session.get(url)
@@ -812,7 +1005,15 @@ class PBuddy:
         return result
 
     def bv_asn_upstreams(self, asn):
-        """return ASN upstreams"""
+        """
+        Return ASN upstreams from BGPView.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            list: List of ASN upstreams.
+        """
         url = f"https://api.bgpview.io/asn/{asn}/upstreams"
         with requests.Session() as session:
             response = session.get(url)
@@ -825,7 +1026,15 @@ class PBuddy:
         return result
 
     def bv_asn_downstreams(self, asn):
-        """return ASN downstreams"""
+        """
+        Return ASN downstreams from BGPView.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            list: List of ASN downstreams.
+        """
         url = f"https://api.bgpview.io/asn/{asn}/downstreams"
         with requests.Session() as session:
             response = session.get(url)
@@ -838,7 +1047,15 @@ class PBuddy:
         return result
 
     def bv_asn_whois(self, asn):
-        """return ASN whois information"""
+        """
+        Return ASN whois information from BGPView.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            dict: ASN whois information.
+        """
         url = f"https://api.bgpview.io/asn/{asn}"
         with requests.Session() as session:
             response = session.get(url)
@@ -851,7 +1068,15 @@ class PBuddy:
         return result
 
     def bv_pfx_whois(self, pfx):
-        """return prefix whois information"""
+        """
+        Return prefix whois information from BGPView.
+
+        Args:
+            pfx (str): IP prefix.
+
+        Returns:
+            dict: Prefix whois information.
+        """
         url = f"https://api.bgpview.io/prefix/{pfx}"
         with requests.Session() as session:
             response = session.get(url)
@@ -864,7 +1089,15 @@ class PBuddy:
         return result
 
     def ii_ip_whois(self, ipaddr):
-        """return ip whois information"""
+        """
+        Return IP whois information from ipinfo.io.
+
+        Args:
+            ipaddr (str): IP address.
+
+        Returns:
+            dict: IP whois information.
+        """
         url = f"https://ipinfo.io/{ipaddr}"
         with requests.Session() as session:
             response = session.get(url)
@@ -876,7 +1109,12 @@ class PBuddy:
         return result
 
     def ntt_bogons_asn(self):
-        """return asn bogons list and examples"""
+        """
+        Return ASN bogons list and examples from NTT.
+
+        Returns:
+            str: ASN bogons list and examples.
+        """
         url = "http://as2914.net/bogon_asns/configuration_examples.txt"
         with requests.Session() as session:
             response = session.get(url)
@@ -888,7 +1126,15 @@ class PBuddy:
         return data
 
     def list_unique(self, list_l):
-        """return unique elements on from a list[non-hashable]"""
+        """
+        Return unique elements from a list.
+
+        Args:
+            list_l (list): Input list.
+
+        Returns:
+            list: List containing unique elements.
+        """
         ulist = []
         for item in list_l:
             if item not in ulist:
@@ -896,7 +1142,17 @@ class PBuddy:
         return ulist
 
     def ripe_bv_pfxs_aspath_length(self, asn, threshold, asprepend):
-        """check aspath and generate a summary analyze for first, second, third, non-transit, transit and location"""
+        """
+        Check AS path and generate a summary analysis for first, second, third, non-transit, transit, and location.
+
+        Args:
+            asn (str): ASN number.
+            threshold (int): Threshold value for AS path length.
+            asprepend (str): Whether to consider AS path prepending.
+
+        Returns:
+            tuple: Tuple containing summary analysis for AS paths.
+        """
         tuple_lpa = []
         first_asn = []
         second_asn = []
@@ -1001,7 +1257,15 @@ class PBuddy:
         return tuple_lpa, first_asn, second_asn, third_asn, nontransit, transit, direct
 
     def ripe_bv_upstreams_transient_path(self, asn):
-        """return ASN upstreams on a transient path"""
+        """
+        Return ASN upstreams on a transient path.
+
+        Args:
+            asn (str): ASN number.
+
+        Returns:
+            tuple: Tuple containing upstreams on a transient path.
+        """
         data = self.ripe_bv_pfxs_aspath_length(asn, 0, "n")
         upstreams = sorted(set(data[5]))
         nlri = data[0]
@@ -1042,7 +1306,21 @@ class PBuddy:
         transit,
         direct,
     ):
-        """create aspath summary"""
+        """
+        Create AS path summary.
+
+        Args:
+            tuple_lpa (list): List of tuples containing AS path details.
+            first_asns (list): List of first ASNs.
+            second_asns (list): List of second ASNs.
+            third_asns (list): List of third ASNs.
+            nontransit (list): List of non-transit ASNs.
+            transit (list): List of transit ASNs.
+            direct (list): List of direct ASNs.
+
+        Returns:
+            tuple: Tuple containing AS path summary.
+        """
         locations = []
         for item in tuple_lpa:
             print("".join(map(str, item)))

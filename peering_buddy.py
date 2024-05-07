@@ -5,19 +5,51 @@
 Peering Buddy - Helping you dig data from internet for better decisions!
 """
 
-import sys
 import argparse
 import json
+import sys
 
 from pbuddy.pbuddy import PBuddy
 
 
+class CustomHelpFormatter(argparse.HelpFormatter):
+    """
+    Custom help formatter class.
+
+    Extends the argparse.HelpFormatter class to set the maximum help position to 88 columns.
+
+    Parameters:
+        prog (str): The program name.
+
+    Attributes:
+        max_help_position (int): The maximum width of the help text.
+
+    Methods:
+        __init__: Initializes the CustomHelpFormatter object with the specified program name.
+    """
+
+    def __init__(self, prog):
+        """
+        Initialize the CustomHelpFormatter object.
+
+        Args:
+            prog (str): The program name.
+
+        Returns:
+            None
+        """
+        super().__init__(prog, max_help_position=88)
+
+
 def main():
-    """Peering Buddy main"""
-    formatter = lambda prog: argparse.HelpFormatter(prog, max_help_position=88)
+    """
+    Peering Buddy main function.
+
+    TODO: Refactor to improve readability and maintainability.
+    """
     parser = argparse.ArgumentParser(
         description="Peering Buddy - Helping you dig data from internet for better decisions!",
-        formatter_class=formatter,
+        formatter_class=CustomHelpFormatter,
     )
     parser.add_argument(
         "-av",

@@ -738,6 +738,8 @@ class PBuddy:
         Returns:
             dict: Resource health information.
         """
+        url = None
+        direct_origin = None
         resource_data = {}
         if resource_type == "asn":
             url = f"https://irrexplorer.nlnog.net/api/prefixes/asn/AS{resource}"

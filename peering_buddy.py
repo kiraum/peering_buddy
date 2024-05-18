@@ -542,6 +542,7 @@ def main():
             print(separator)
 
     if args.resourcehealthcheck is not None:
+        resource_type = None
         reasn = pbuddy.regex_validation(re_asn, args.resourcehealthcheck)
         repfx = pbuddy.pfx_validation(args.resourcehealthcheck)
         if reasn is False and repfx is False:

@@ -44,7 +44,7 @@ pytest==8.2.1
     # via peering-buddy (pyproject.toml)
 pyyaml==6.0.1
     # via yamllint
-requests==2.32.0
+requests==2.32.2
     # via peering-buddy (pyproject.toml)
 ruff==0.4.4
     # via peering-buddy (pyproject.toml)

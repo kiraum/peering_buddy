@@ -24,7 +24,7 @@ mccabe==0.7.0
     # via pylint
 mypy-extensions==1.0.0
     # via black
-packaging==24.0
+packaging==24.1
     # via
     #   black
     #   pytest

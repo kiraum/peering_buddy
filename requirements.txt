@@ -50,7 +50,7 @@ ruff==0.4.9
     # via peering-buddy (pyproject.toml)
 tomlkit==0.12.5
     # via pylint
-urllib3==2.2.1
+urllib3==2.2.2
     # via requests
 uv==0.2.11
     # via peering-buddy (pyproject.toml)

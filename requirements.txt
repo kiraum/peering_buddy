@@ -52,7 +52,7 @@ tomlkit==0.13.0
     # via pylint
 urllib3==2.2.2
     # via requests
-uv==0.2.30
+uv==0.2.33
     # via peering-buddy (pyproject.toml)
 yamllint==1.35.1
     # via peering-buddy (pyproject.toml)

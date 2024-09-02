@@ -4,7 +4,7 @@ astroid==3.3.2
     # via pylint
 black==24.8.0
     # via peering-buddy (pyproject.toml)
-certifi==2024.7.4
+certifi==2024.8.30
     # via requests
 charset-normalizer==3.3.2
     # via requests

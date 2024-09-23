@@ -32,7 +32,7 @@ pathspec==0.12.1
     # via
     #   black
     #   yamllint
-platformdirs==4.3.3
+platformdirs==4.3.6
     # via
     #   black
     #   pylint

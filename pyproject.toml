@@ -10,6 +10,7 @@ dependencies = [
     "requests",
     "black",
     "isort",
+    "flake8",
     "pylint",
     "ruff",
     "pytest",

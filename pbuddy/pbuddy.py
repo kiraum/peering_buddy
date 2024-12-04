@@ -2,7 +2,7 @@
 Peering Buddy - Helping you dig data from internet for better decisions!
 """
 
-# pylint: disable=too-many-locals, too-many-branches, too-many-statements, line-too-long, too-few-public-methods, too-many-lines, too-many-nested-blocks, too-many-arguments, too-many-public-methods
+# pylint: disable=too-many-locals, too-many-branches, too-many-statements, line-too-long, too-few-public-methods, too-many-lines, too-many-nested-blocks, too-many-arguments, too-many-public-methods, too-many-positional-arguments
 
 import ipaddress
 import json

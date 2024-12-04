@@ -12,6 +12,8 @@ click==8.1.7
     # via black
 dill==0.3.9
     # via pylint
+flake8==7.1.1
+    # via peering-buddy (pyproject.toml)
 idna==3.10
     # via requests
 iniconfig==2.0.0
@@ -21,7 +23,9 @@ isort==5.13.2
     #   peering-buddy (pyproject.toml)
     #   pylint
 mccabe==0.7.0
-    # via pylint
+    # via
+    #   flake8
+    #   pylint
 mypy-extensions==1.0.0
     # via black
 packaging==24.2
@@ -38,6 +42,10 @@ platformdirs==4.3.6
     #   pylint
 pluggy==1.5.0
     # via pytest
+pycodestyle==2.12.1
+    # via flake8
+pyflakes==3.2.0
+    # via flake8
 pylint==3.3.2
     # via peering-buddy (pyproject.toml)
 pytest==8.3.4

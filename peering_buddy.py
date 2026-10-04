@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements, line-too-long, unnecessary-lambda-assignment
-# noqa: E501
 """
 Peering Buddy - Helping you dig data from internet for better decisions!
 """
@@ -801,85 +800,85 @@ def main():
                 "First ASN (the other end ASN): ",
                 [(":".join(map(str, item))) for item in first_asn_d],
             )
-            print("")
+            print()
             print(
                 "Non transit peers directly attached to ASN",
                 asn,
                 ":",
                 [(":".join(map(str, item))) for item in nontransit_d],
             )
-            print("")
+            print()
             print(
                 "Transit upstreams for the ASN",
                 asn,
                 ":",
                 [(":".join(map(str, item))) for item in transit_d],
             )
-            print("")
+            print()
             print("By locations:")
             for place in locations_d:
-                print((":".join(map(str, place))))
+                print(":".join(map(str, place)))
         elif int(threshold) == 3:
             print(
                 "First ASN (the other end ASN): ",
                 [(":".join(map(str, item))) for item in first_asn_d],
             )
-            print("")
+            print()
             print(
                 "Second ASN (the other end upstream): ",
                 [(":".join(map(str, item))) for item in second_asn_d],
             )
-            print("")
+            print()
             print(
                 "Non transit peers directly attached to ASN",
                 asn,
                 ":",
                 [(":".join(map(str, item))) for item in nontransit_d],
             )
-            print("")
+            print()
             print(
                 "Transit upstreams for the ASN",
                 asn,
                 ":",
                 [(":".join(map(str, item))) for item in transit_d],
             )
-            print("")
+            print()
             print("By locations:")
             for place in locations_d:
-                print((":".join(map(str, place))))
+                print(":".join(map(str, place)))
         elif int(threshold) >= 4:
             print(
                 "First ASN (the other end ASN): ",
                 [(":".join(map(str, item))) for item in first_asn_d],
             )
-            print("")
+            print()
             print(
                 "Second ASN (the other end upstream): ",
                 [(":".join(map(str, item))) for item in second_asn_d],
             )
-            print("")
+            print()
             print(
                 "Third ASN (trying to find a common ASN on the path): ",
                 [(":".join(map(str, item))) for item in third_asn_d],
             )
-            print("")
+            print()
             print(
                 "Non transit peers directly attached to ASN",
                 asn,
                 ":",
                 [(":".join(map(str, item))) for item in nontransit_d],
             )
-            print("")
+            print()
             print(
                 "Transit upstreams for the ASN",
                 asn,
                 ":",
                 [(":".join(map(str, item))) for item in transit_d],
             )
-            print("")
+            print()
             print("By locations:")
             for place in locations_d:
-                print((": ".join(map(str, place))))
+                print(": ".join(map(str, place)))
         if args.nonverbose is False:
             print(separator)
     if args.asn_upstreamtransient is not None:
@@ -944,7 +943,7 @@ def main():
                 upstreams_percentage,
                 "%",
             )
-        print("")
+        print()
         print(
             "By locations [ Location => Number of transient upstreams ASNs on this location  => Total NLRI number seeing this location => Percentage ]:"
         )
@@ -966,10 +965,9 @@ def main():
         if args.nonverbose is False:
             print(separator)
 
-    if options is False:
-        if len(sys.argv) == 1:
-            parser.print_help(sys.stderr)
-            sys.exit(0)
+    if options is False and len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        sys.exit(0)
 
 
 if __name__ == "__main__":

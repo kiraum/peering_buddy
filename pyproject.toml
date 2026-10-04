@@ -29,3 +29,6 @@ disable = [
 
 [tool.isort]
 profile = "black"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

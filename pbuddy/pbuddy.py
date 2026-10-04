@@ -427,27 +427,7 @@ class PBuddy:
                         " => Check your announce, ROA/RPKI is valid, not registered on IRR and whois "
                         "(probably malicious activity or hijack)." + Bcolors.ENDC,
                     )
-                elif irr == "-" and bgp is True and whois is False and vrp == "unknown":
-                    result = (
-                        Bcolors.FAIL + "Prefix: ",
-                        prefix,
-                        " | Whois: ",
-                        whois,
-                        " | IRR: ",
-                        irr,
-                        " | BGP: ",
-                        bgp,
-                        " | RPKI: ",
-                        vrp,
-                        " => Check your announce, ROA/RPKI not published, not registered on IRR and whois "
-                        "(probably fat finger or hijack)." + Bcolors.ENDC,
-                    )
-                elif (
-                    irr == "-"
-                    and bgp is True
-                    and whois is False
-                    and (vrp != "valid" or vrp != "unknown")
-                ):
+                elif irr == "-" and bgp is True and whois is False:
                     result = (
                         Bcolors.FAIL + "Prefix: ",
                         prefix,
@@ -1279,8 +1259,7 @@ class PBuddy:
         for each in nlri:
             aspath = each[-1]
             aspath_l = aspath.split()
-            for as_hop in aspath_l:
-                full_aspaths.append(as_hop)
+            full_aspaths.extend(aspath_l)
             location = each[0]
             all_locations.append(location)
             del aspath_l[-2:]
@@ -1288,8 +1267,7 @@ class PBuddy:
             if match:
                 transient_paths.append(each)
                 transient_upstreams.append(sorted(match))
-                for eachas in aspath_l:
-                    aspaths.append(eachas)
+                aspaths.extend(aspath_l)
         return (
             transient_paths,
             transient_upstreams,

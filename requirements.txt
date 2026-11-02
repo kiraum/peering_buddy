@@ -52,7 +52,7 @@ pygments==2.21.0
     # via pytest
 pylint==4.1.3
     # via peering-buddy (pyproject.toml)
-pytest==9.1.1
+pytest==9.2.0
     # via peering-buddy (pyproject.toml)
 pytokens==0.4.1
     # via black

@@ -4,9 +4,9 @@ astroid==4.3.4
     # via pylint
 black==26.10.1
     # via peering-buddy (pyproject.toml)
-certifi==2026.10.23
+certifi==2026.11.20
     # via requests
-charset-normalizer==3.5.2
+charset-normalizer==3.5.3
     # via requests
 click==8.5.1
     # via black
@@ -30,7 +30,7 @@ mypy-extensions==1.2.0
     # via
     #   black
     #   isort
-packaging==26.3
+packaging==26.4
     # via
     #   black
     #   pytest
@@ -38,7 +38,7 @@ pathspec==1.1.1
     # via
     #   black
     #   yamllint
-platformdirs==4.14.5
+platformdirs==4.14.8
     # via
     #   black
     #   pylint
@@ -56,17 +56,17 @@ pytest==9.2.0
     # via peering-buddy (pyproject.toml)
 pytokens==0.4.1
     # via black
-pyyaml==6.0.3
+pyyaml==6.0.4
     # via yamllint
 requests==2.34.2
     # via peering-buddy (pyproject.toml)
-ruff==0.17.5
+ruff==0.17.6
     # via peering-buddy (pyproject.toml)
-tomlkit==0.15.2
+tomlkit==0.15.3
     # via pylint
 urllib3==2.8.0
     # via requests
-uv==0.13.8
+uv==0.13.10
     # via peering-buddy (pyproject.toml)
 yamllint==1.38.0
     # via peering-buddy (pyproject.toml)
